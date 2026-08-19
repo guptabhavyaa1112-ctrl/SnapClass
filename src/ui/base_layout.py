@@ -106,3 +106,51 @@ def style_base_layout():
     </style>
 
     """,unsafe_allow_html=True)
+def style_teacher_auth():
+    st.markdown("""
+    <style>
+            .stApp{
+            background:#20233A !important;
+            }
+
+            .st-key-teacher_auth_card {
+            background-color: #F3F1FC !important;
+            width: 55% !important;
+            margin: 2rem auto !important;
+            padding: 2.5rem 3rem !important;
+            border-radius: 3.5rem !important;
+            box-sizing: border-box !important;
+            }
+
+            .st-key-teacher_auth_card h3 {
+            font-family: 'Climate Crisis', sans-serif !important;
+            font-size: 2.4rem !important;
+            font-weight: 800 !important;
+            text-align: left !important;
+            color: #111111 !important;
+            margin-bottom: 1.8rem !important;
+            }
+
+            .st-key-teacher_auth_card label p {
+            font-weight: 700 !important;
+            font-size: 0.95rem !important;
+            color: #111111 !important;
+            }
+
+            .st-key-teacher_auth_card div[data-testid="stTextInput"] input {
+            background-color: #FFFFFF !important;
+            color: #111111 !important;
+            border: 1.5px solid #B8DEB8 !important;
+            border-radius: 0.9rem !important;
+            padding: 0.75rem 1rem !important;
+            font-size: 0.95rem !important;
+            }
+
+            .st-key-teacher_auth_card hr {
+            border: none !important;
+            border-top: 1.5px solid #D6D3F0 !important;
+            margin: 1.5rem 0 !important;
+            }
+    </style>
+
+    """,unsafe_allow_html=True)
