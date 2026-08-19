@@ -2,9 +2,6 @@ import streamlit as st
 from src.components.header import header_home
 from src.components.footer import footer_home
 from src.ui.base_layout import style_base_layout, style_teacher_auth
-from src.database import teacher_exists, register_teacher, verify_teacher, get_teacher_name
-
-
 def teacher_screen():
     style_base_layout()
     style_teacher_auth()
@@ -15,17 +12,19 @@ def teacher_screen():
             st.session_state['login_type'] = None
             st.rerun()
 
-    header_home()
+    header_home(text_color="#285A45")
 
-    # ---- session state setup ----
+    # ---- session state setup (temporary, no DB yet) ----
     if 'teacher_auth_mode' not in st.session_state:
         st.session_state['teacher_auth_mode'] = 'register'
+    if 'teachers_db' not in st.session_state:
+        st.session_state['teachers_db'] = {}  # placeholder until Supabase is wired in
     if 'teacher_logged_in' not in st.session_state:
         st.session_state['teacher_logged_in'] = None
 
     # ---- already logged in ----
     if st.session_state['teacher_logged_in']:
-        name = get_teacher_name(st.session_state['teacher_logged_in'])
+        name = st.session_state['teachers_db'][st.session_state['teacher_logged_in']]['name']
         st.markdown(f"<h3>Welcome, {name} 👋</h3>", unsafe_allow_html=True)
         footer_home()
         return
@@ -52,10 +51,10 @@ def teacher_screen():
                     st.error('Please fill in all fields.')
                 elif password != confirm_password:
                     st.error('Passwords do not match.')
-                elif teacher_exists(username):
+                elif username in st.session_state['teachers_db']:
                     st.error('A teacher with this username already exists.')
                 else:
-                    register_teacher(username, name, password)
+                    st.session_state['teachers_db'][username] = {'name': name, 'password': password}
                     st.success(f'Welcome {name}! Please log in.')
                     st.session_state['teacher_auth_mode'] = 'login'
                     st.rerun()
@@ -79,7 +78,8 @@ def teacher_screen():
                 register_instead = st.button('👤 Register Instead', type='primary', use_container_width=True)
 
             if login_clicked:
-                if verify_teacher(username, password):
+                record = st.session_state['teachers_db'].get(username)
+                if record and record['password'] == password:
                     st.session_state['teacher_logged_in'] = username
                     st.rerun()
                 else:

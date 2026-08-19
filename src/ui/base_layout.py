@@ -110,11 +110,11 @@ def style_teacher_auth():
     st.markdown("""
     <style>
             .stApp{
-            background:#20233A !important;
+            background:#1B4332  !important;
             }
 
             .st-key-teacher_auth_card {
-            background-color: #F3F1FC !important;
+            background-color: #EEF7EE !important;
             width: 55% !important;
             margin: 2rem auto !important;
             padding: 2.5rem 3rem !important;
@@ -148,7 +148,7 @@ def style_teacher_auth():
 
             .st-key-teacher_auth_card hr {
             border: none !important;
-            border-top: 1.5px solid #D6D3F0 !important;
+            border-top: 1.5px solid #B8DEB8 !important;
             margin: 1.5rem 0 !important;
             }
     </style>
