@@ -14,3 +14,5 @@ segno
 pillow
 #frontend
 streamlit
+supabase
+bcrypt
