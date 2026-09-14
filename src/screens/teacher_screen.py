@@ -2,8 +2,8 @@ import streamlit as st
 from src.components.header import header_home
 from src.components.footer import footer_home
 from src.ui.base_layout import style_base_layout, style_teacher_auth
-from src.database import teacher_exists, register_teacher, verify_teacher, get_teacher_name, save_attendance_session
-from src.face_utils import get_all_face_encodings
+from src.database import teacher_exists, register_teacher, verify_teacher, get_teacher_name, save_attendance_session, get_all_students
+from src.face_utils import get_all_face_encodings, compare_encoding
 
 
 def teacher_screen():
@@ -36,6 +36,23 @@ def teacher_screen():
             else:
                 save_attendance_session(encodings)
                 st.success(f"Attendance session started with {len(encodings)} face(s) detected.")
+
+                all_students = get_all_students()
+                recognized_names = []
+                for face_enc in encodings:
+                    match = None
+                    for student in all_students:
+                        if compare_encoding(student['face_embedding'], face_enc):
+                            match = student['name']
+                            break
+                    recognized_names.append(match if match else "Unknown face")
+
+                st.markdown("**Students identified in this photo:**")
+                for i, sname in enumerate(recognized_names, start=1):
+                    if sname == "Unknown face":
+                        st.write(f"{i}. ⚠️ {sname} (not a registered student)")
+                    else:
+                        st.write(f"{i}. ✅ {sname}")
 
         footer_home()
         return
